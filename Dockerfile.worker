@@ -1,0 +1,4 @@
+FROM ray-example-base
+
+ADD launch_workers.sh /app/launch_workers.sh
+ENTRYPOINT [ "sh", "/app/launch_workers.sh"]

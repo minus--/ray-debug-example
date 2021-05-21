@@ -1,0 +1,4 @@
+FROM ray-example-base
+
+ADD launch_head.sh /app/launch_head.sh
+ENTRYPOINT [ "sh", "/app/launch_head.sh"]

@@ -1,0 +1,59 @@
+version: '3'
+services:
+  ray-head:
+    build: 
+      context: .
+      dockerfile: ./Dockerfile.head
+    shm_size: "11gb"
+    expose:
+      - 6379
+      - 6380
+      - 6381
+      - 8265
+      - 10000
+      - 10999
+    ports:
+      - 127.0.0.1:8265:8265
+      - 127.0.0.1:12345:12345
+      - 127.0.0.1:12346:12346
+    networks:
+      - ray-network
+    deploy:
+      resources:
+          limits:
+            cpus: "5"
+  ray-worker:
+    build: 
+      context: .
+      dockerfile: ./Dockerfile.worker
+    shm_size: "11gb"
+    networks:
+      - ray-network
+    depends_on: 
+      - ray-head
+    deploy:
+      resources:
+          limits:
+            cpus: "5"
+  ray-job:
+    build: 
+      context: .
+      dockerfile: Dockerfile.job  
+    shm_size: "11gb" 
+    environment:
+      RAY_SERVER: ray-head:6379
+      REDIS_PASSWORD: change_me_please
+    ports:
+      - 127.0.0.1:9265:8265
+      - 127.0.0.1:13345:12345
+      - 127.0.0.1:13346:12346
+    networks:
+      - ray-network
+    depends_on: 
+      - ray-head
+    deploy:
+      resources:
+          limits:
+            cpus: "5"
+networks:
+    ray-network:

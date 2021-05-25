@@ -2,5 +2,4 @@ FROM ray-example-base
 ADD launch_job.sh /app/launch_job.sh
 ADD plot_pong_example.ipynb /app/plot_pong_example.ipynb
 ADD plot_pong_example.py /app/plot_pong_example.py
-ADD ridl /app/ridl
 ENTRYPOINT [ "sh", "/app/launch_job.sh"]

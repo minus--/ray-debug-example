@@ -1,10 +1,10 @@
 version: '3'
 services:
   ray-head:
-    build: 
+    build:
       context: .
       dockerfile: ./Dockerfile.head
-#    shm_size: "11gb"
+    shm_size: "11gb"
     expose:
       - 6379
       - 6380
@@ -23,7 +23,7 @@ services:
     build: 
       context: .
       dockerfile: ./Dockerfile.worker
-#    shm_size: "11gb"
+    shm_size: "11gb"
     networks:
       - ray-network
     depends_on: 
@@ -32,7 +32,7 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile.job  
-#    shm_size: "11gb" 
+    shm_size: "11gb" 
     environment:
       RAY_SERVER: ray-head:6379
       REDIS_PASSWORD: change_me_please
@@ -44,7 +44,6 @@ services:
         - 10000
         - 10001
         - 10999
-        - 16000
     ports:
       - 127.0.0.1:9265:8265
       - 127.0.0.1:13345:12345
